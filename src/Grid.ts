@@ -1,5 +1,4 @@
 import {IGridCell, Content} from './GridCell'
-import GridInitialiser from './GridInitialiser'
 
 export default class Grid {
     public readonly width: number;
@@ -8,62 +7,104 @@ export default class Grid {
 
     private data: IGridCell[][] = [];
 
-    constructor(width: number, height: number, numMines: number, gridInitialiser: GridInitialiser) {
+    constructor(width: number, height: number, numMines: number) {
         this.width = width;
         this.height = height;
         this.numMines = numMines;
-         for (let y = 0; y < height; ++y) {
+
+        for (let y = 0; y < height; ++y) {
             this.data.push([]);
             for (let x = 0; x < width; ++x) {
-                this.data[y].push({revealed: false, content: Content.empty});
+                this.data[y].push({revealed: false, content: Content.empty, coords: {column: x, row:y}});
             }
         }
-        gridInitialiser.set_mines(this, numMines);
-        gridInitialiser.set_numbers(this);
+        /*this.data.push([]);
+        this.data.push([]);
+       
+
+        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 0, row:0}});
+        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 1, row:0}});
+
+        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 2, row:0}});
+        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 3, row:0}});
+
+        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 0, row:1}});
+        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 1, row:1}});
+
+        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 2, row:1}});
+        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 3, row:1}});
+
+        this.cell(0,0);
+        this.cell(1,0);
+        this.cell(2,0);
+        this.cell(3,0);
+        this.cell(0,1);
+        this.cell(1,1);
+        this.cell(2,1);
+        this.cell(3,1);
+         /*for (let y = 0; y < height; ++y) {
+            this.data.push([]);
+            const d = this.data[y];
+            for (let x = 0; x < width; ++x) {
+                d.push({revealed: false, content: Content.empty, coords: {column: x, row:y}});
+                this.cell(x,y);
+            }
+        }*/
     }
 
     public cells(): Readonly<IGridCell[][]> {
         return this.data;
     }
 
-    public cell(x: number, y: number): IGridCell | null {
-        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+    public cell(column: number, row: number): IGridCell | null {
+        if (column < 0 || column >= this.width || row < 0 || row >= this.height) {
             return null;
         }
-        return this.data[x][y];
+        if (this.data[row][column].coords.column !== column || this.data[row][column].coords.row !== row) {
+            throw new Error("invalid grid");
+        }
+        return this.data[row][column];
     }
 
-    public guaranteed_cell(x: number, y: number): IGridCell {
-        return this.data[x][y];
+    public guaranteed_cell(column: number, row: number): IGridCell {
+        return this.data[row][column];
     }
 
-    public surrounding(x: number, y: number): Array<Readonly<IGridCell>> {
+    public surrounding(c: number, r: number): Array<Readonly<IGridCell>> {
         const cells: IGridCell[] = [];
-        const cell = this.cell(x,y);
+        const cell = this.cell(c,r);
         if ( cell === null) {
             return cells;
         }
-        const addIfNotNull = (xx: number, yy: number) => {
-            const c = this.cell(xx, yy);
-            if (c !== null) {
-                cells.push(c);
+        const addIfNotNull = (cc: number, rr: number) => {
+            const cellToAdd = this.cell(cc, rr);
+            if (cellToAdd !== null) {
+                cells.push(cellToAdd);
             }
         }
-        addIfNotNull(x-1, y);
-        addIfNotNull(x-1, y-1);
-        addIfNotNull(x, y-1);
-        addIfNotNull(x+1, y-1);
-        addIfNotNull(x+1, y);
-        addIfNotNull(x+1, y+1);
-        addIfNotNull(x, y+1);
-        addIfNotNull(x-1, y+1);
+        addIfNotNull(c-1, r);
+        addIfNotNull(c-1, r-1);
+        addIfNotNull(c, r-1);
+        addIfNotNull(c+1, r-1);
+        addIfNotNull(c+1, r);
+        addIfNotNull(c+1, r+1);
+        addIfNotNull(c, r+1);
+        addIfNotNull(c-1, r+1);
         return cells;
     }
 
-    public is_mine(x: number, y: number) {
-        const cell = this.cell(x,y);
+    public is_mine(c: number, r: number) {
+        const cell = this.cell(c,r);
         if (cell) {
             return cell.content === Content.mine;
+        }
+        return false;
+    }
+
+    public is_number(c: number, r: number) {
+        const cell = this.cell(c,r);
+        if (cell) {
+            return cell.content <= Content.eight;
         }
         return false;
     }

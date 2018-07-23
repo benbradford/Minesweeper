@@ -13,7 +13,13 @@ export enum Content {
     flag
 }
 
+export interface ICoords {
+    column: number;
+    row: number;
+}
+
 export interface IGridCell {
     revealed: boolean;
     content: Content;
+    coords: ICoords;
 }
