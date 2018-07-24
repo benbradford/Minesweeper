@@ -11,6 +11,7 @@ export default class DyingState extends GameState {
     constructor(stack: GameStateStack, grid: Grid, cell: IGridCell) {
         super(stack, grid);
         this.revealer = new GridRevealer(grid, 2);
+        this.revealer.begin(cell.coords.column, cell.coords.row);
     }
 
     public tick(): boolean {

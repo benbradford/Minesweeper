@@ -1,4 +1,3 @@
-import {IGridCell} from '../Model/GridCell'
 import GameStateStack from './GameStateStack'
 import PickState from './PickState'
 import Grid from '../Model/Grid'
@@ -23,8 +22,8 @@ export default class Game {
         this.reset();
     }
 
-    public click(cell: IGridCell) {
-        return this.stateStack.current().on_click(cell);
+    public click(row: number, col: number) {
+        return this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col));
     }
 
     public set_flag_mode(flagModeOn: boolean) {

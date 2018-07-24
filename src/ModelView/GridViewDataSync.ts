@@ -1,4 +1,4 @@
-import {ICellView, MineState, CellState} from './ICellView'
+import {ICellData, CellState} from './ICellData'
 import Grid from '../Model/Grid'
 import {IGridCell, Content} from '../Model/GridCell'
 
@@ -10,8 +10,8 @@ export default class GridViewDataSync {
         this.grid = grid;
     }
 
-    public sync(): ICellView[][] {
-        const data: ICellView[][] = [];
+    public sync() {
+        const data: ICellData[][] = [];
         for (let y = 0; y < this.grid.height; ++y) {
             data.push([]);
             for (let x = 0; x < this.grid.width; ++x) {
@@ -22,24 +22,21 @@ export default class GridViewDataSync {
     }
 
     private cell_view_from_model(cell: IGridCell) {
-
         let cs = CellState.hidden;
-        if (cell.revealed) {
-            cs = CellState.revealed;
-        }
-
-        let ms = MineState.none;
-        if (cell.content === Content.mine) {
-            ms = MineState.present;
-        }
-
         let n: number | null = null;
-        if (cell.content > 0 && cell.content <= Content.eight) {
-            n = cell.content;
+        if (cell.revealed) {
+            if (cell.content === Content.mine) {
+                cs = CellState.mine;
+            } else if (cell.content === Content.empty) {
+                cs = CellState.empty;
+            } else if (cell.content > 0 && cell.content <= Content.eight) {
+                n = cell.content;
+                cs = CellState.number;
+            } else {
+                cs = CellState.hidden;
+            }
         }
 
-        const f = false;
-
-        return {cellState: cs, mineState: ms, num: n, flagged: f};
+        return {cellState: cs, num: n,};
     }
 }
