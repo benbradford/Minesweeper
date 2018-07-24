@@ -2,13 +2,16 @@ import * as React from 'react';
 import './App.css';
 import Grid from './Grid'
 import GridInitialiser from './GridInitialiser'
-import {IGridCell} from './GridCell'
+import {IGridCell, Content} from './GridCell'
 import MoveSolver from './MoveSolver'
+import GridRevealer from './GridRevealer'
 
 class App extends React.Component {
 
   private grid: Readonly<Grid>;
   private moveSolver: MoveSolver;
+  private gridRevealer: GridRevealer;
+
   private interval : NodeJS.Timer;
 
   constructor(props: Readonly<any>) {
@@ -17,7 +20,7 @@ class App extends React.Component {
   }
 
   public componentDidMount() {
-    this.interval = setInterval(() => this.update(), 20);
+    this.interval = setInterval(() => this.update(), 1);
  }
  
  public  componentWillUnmount() {
@@ -29,7 +32,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           
-          <h1 className="App-title">M</h1>
+          <h1 className="App-title">Mine Sweeper</h1>
         </header>
         <p className="App-intro">          
             {this.render_cells()}
@@ -56,14 +59,19 @@ class App extends React.Component {
     let content = "" + cell.content;
     if (cell.content === 0) {
       content = " ";
+    } else if (cell.content === Content.mine) {
+      content = "M";
     }
+    
   return (<td className="Cell Reveal">{content}</td>);
   }
 
   private update() {
-    const hasSteps = this.moveSolver.has_more_steps(); 
-    if (hasSteps) {
+    if (this.moveSolver.has_more_steps()) {
       this.moveSolver.step();
+      this.setState({});
+    } else if (this.gridRevealer.has_more_steps()) {
+      this.gridRevealer.step();
       this.setState({});
     }
   }
@@ -79,11 +87,18 @@ class App extends React.Component {
     const init = new GridInitialiser(grid);
     init.populate_grid_with_mines();
     init.populate_numbers_in_grid();
-    this.moveSolver = new MoveSolver(grid);
+    this.moveSolver = new MoveSolver(grid, 5);
+    this.gridRevealer = new GridRevealer(grid, 1);
   }
 
   private reveal(cell: Readonly<IGridCell>) {
-    this.moveSolver.make_move(cell.coords.column, cell.coords.row);
+    if (this.moveSolver.has_more_steps() || this.gridRevealer.has_more_steps()) {
+      return;
+    }
+    this.gridRevealer.begin(cell.coords.column, cell.coords.row);
+    if (this.gridRevealer.has_more_steps() === false) { 
+      this.moveSolver.begin(cell.coords.column, cell.coords.row);
+    }
     this.setState({});
   }
 }
