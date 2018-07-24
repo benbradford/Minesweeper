@@ -18,38 +18,7 @@ export default class Grid {
                 this.data[y].push({revealed: false, content: Content.empty, coords: {column: x, row:y}});
             }
         }
-        /*this.data.push([]);
-        this.data.push([]);
-       
-
-        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 0, row:0}});
-        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 1, row:0}});
-
-        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 2, row:0}});
-        this.data[0].push({revealed: false, content: Content.empty, coords: {column: 3, row:0}});
-
-        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 0, row:1}});
-        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 1, row:1}});
-
-        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 2, row:1}});
-        this.data[1].push({revealed: false, content: Content.empty, coords: {column: 3, row:1}});
-
-        this.cell(0,0);
-        this.cell(1,0);
-        this.cell(2,0);
-        this.cell(3,0);
-        this.cell(0,1);
-        this.cell(1,1);
-        this.cell(2,1);
-        this.cell(3,1);
-         /*for (let y = 0; y < height; ++y) {
-            this.data.push([]);
-            const d = this.data[y];
-            for (let x = 0; x < width; ++x) {
-                d.push({revealed: false, content: Content.empty, coords: {column: x, row:y}});
-                this.cell(x,y);
-            }
-        }*/
+        
     }
 
     public cells(): Readonly<IGridCell[][]> {

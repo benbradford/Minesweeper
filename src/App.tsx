@@ -13,16 +13,11 @@ class App extends React.Component {
 
   constructor(props: Readonly<any>) {
     super(props);
-    const grid = new Grid(4, 4, 1);
-    this.grid = grid;
-    const init = new GridInitialiser(grid);
-    init.populate_grid_with_mines();
-    init.populate_numbers_in_grid();
-    this.moveSolver = new MoveSolver(grid);
+    this.reset();
   }
 
   public componentDidMount() {
-    this.interval = setInterval(() => this.update(), 10);
+    this.interval = setInterval(() => this.update(), 20);
  }
  
  public  componentWillUnmount() {
@@ -39,25 +34,30 @@ class App extends React.Component {
         <p className="App-intro">          
             {this.render_cells()}
         </p>
+        <br /> <button onClick={this.resetClicked}>Reset</button>
       </div>
     );
   }
 
   private render_cells(): JSX.Element {
     const rows: Readonly<IGridCell[][]> = this.grid.cells();
-    return ( <section>{rows.map((row: IGridCell[]) => this.render_row(row))}</section> );
+    return ( <table className="center">{rows.map((row: IGridCell[]) => this.render_row(row))}</table> );
   }
 
   private render_row(row: Readonly<IGridCell[]>): JSX.Element {
-    return (<section>{row.map((c: IGridCell) => this.render_cell(c) )}</section>);
+    return (<tr className="Row">{row.map((c: IGridCell) => this.render_cell(c) )}</tr>);
   }
 
   private render_cell(cell: Readonly<IGridCell>): JSX.Element {
     if (cell.revealed === false) {
       const callback = () =>{ this.reveal(cell); };
-      return (<button onClick={callback}>{" "}</button>);
+      return (<td className="Cell Hidden"><button onClick={callback}/></td>);
     }
-    return (<button>{"" + cell.content}</button>);
+    let content = "" + cell.content;
+    if (cell.content === 0) {
+      content = " ";
+    }
+  return (<td className="Cell Reveal">{content}</td>);
   }
 
   private update() {
@@ -66,6 +66,20 @@ class App extends React.Component {
       this.moveSolver.step();
       this.setState({});
     }
+  }
+
+  private resetClicked = () => {
+    this.reset();
+    this.setState({});
+  }
+
+  private reset() {
+    const grid = new Grid(16, 16, 30);
+    this.grid = grid;
+    const init = new GridInitialiser(grid);
+    init.populate_grid_with_mines();
+    init.populate_numbers_in_grid();
+    this.moveSolver = new MoveSolver(grid);
   }
 
   private reveal(cell: Readonly<IGridCell>) {

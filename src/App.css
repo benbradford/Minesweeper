@@ -22,6 +22,46 @@
   font-size: large;
 }
 
+table.center {
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+.Row {
+  padding: 0;
+  margin: 0;
+}
+
+.Cell {
+
+ 
+  min-width: 21px;
+  min-height: 21px;
+  max-width: 21px;
+  max-height: 21px;
+  font-family: "Courier New", Courier, monospace;
+  border-width: 1px;
+
+  border-style:solid;
+  border-color: black;
+}
+
+.Revealed {
+ 
+  color:rgba(0, 119, 255, 0.61);
+  background-color: blue;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.Hidden {
+  background-color: lightgray;
+  color: lightgray;
+ 
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
