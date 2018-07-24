@@ -25,7 +25,7 @@ export default class GridInitialiser {
     public populate_numbers_in_grid() {
         for (let y = 0; y < this.grid.height; ++y) {
             for (let x = 0; x <  this.grid.width; ++x) {
-                if (this.grid.is_mine(x,y)) {
+                if (this.grid.is_mine(this.grid.guaranteed_cell(x,y))) {
                     continue;
                 }
                 const surrounding = this.grid.surrounding(x,y);

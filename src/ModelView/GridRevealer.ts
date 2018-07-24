@@ -1,5 +1,5 @@
-import Grid from './Grid'
-import {IGridCell, Content} from './GridCell'
+import Grid from '../Model/Grid'
+import {IGridCell, Content} from '../Model/GridCell'
 import GridStepper from './GridStepper'
 
 export default class GridRevealer extends GridStepper {

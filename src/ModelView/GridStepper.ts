@@ -1,5 +1,5 @@
-import Grid from './Grid'
-import {IGridCell} from './GridCell'
+import Grid from '../Model/Grid'
+import {IGridCell} from '../Model/GridCell'
 
 export default abstract class GridStepper {
     
@@ -30,10 +30,10 @@ export default abstract class GridStepper {
         this.step();
     }
 
-    public step() {
+    public step(): boolean {
         ++this.stepCount;
         if (this.stepCount < this.stepSpeed) {
-            return;
+            return false;
         }
         this.stepCount = 0;
         const cell = this.queue[this.queueStart];
@@ -43,6 +43,7 @@ export default abstract class GridStepper {
         if (this.should_add_surrounding_to_queue(cell)) {
             this.add_surrounding_to_queue(cell);
         }
+        return true;
     }
 
     public has_more_steps() {

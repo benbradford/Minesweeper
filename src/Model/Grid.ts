@@ -62,12 +62,8 @@ export default class Grid {
         return cells;
     }
 
-    public is_mine(c: number, r: number) {
-        const cell = this.cell(c,r);
-        if (cell) {
-            return cell.content === Content.mine;
-        }
-        return false;
+    public is_mine(cell: IGridCell) {
+        return cell.content === Content.mine;
     }
 
     public is_number(c: number, r: number) {
