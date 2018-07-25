@@ -1,67 +1,66 @@
 import * as React from 'react';
 import './App.css';
 import GridView from './View/GridView'
+import Game from './ModelView/Game'
+import {ICellData} from './ModelView/ICellData'
 
-class App extends React.Component {
+interface IAppState {
+    cells: ICellData[][];
+}
 
-  public render(): JSX.Element {
-    return (
-      <div className="App">
-        <header className="App-header">
-          
-          <h1 className="App-title">Mine Sweeper</h1>
-        </header>
-        <p className="App-intro">          
-           <GridView />
-        </p>
-       
-      </div>
-    );
-  }
+class App extends React.Component<any, IAppState> {
 
-  
-/*
-  private render_cells(): JSX.Element {
-    const rows = this.props.data;
-    return ( <table className="center">{rows.map((row: ICellView[]) => this.render_row(row))}</table> );
-  }
+    private interval: NodeJS.Timer;
+    private game = new Game;
 
-  private render_row(row: Readonly<ICellView[]>): JSX.Element {
-    return (<tr className="Row">{row.map((c: Readonly<ICellView>) => this.render_cell(c) )}</tr>);
-  }
-
-  private render_cell(cell: Readonly<ICellView>): JSX.Element {
-    if (cell.revealed === false) {
-      const callback = () =>{ this.reveal(cell); };
-      return (<td className="Cell Hidden"><button onClick={callback}/></td>);
+    public componentDidMount() {
+        this.interval = setInterval(() => this.update(), 1);
+        this.setState({cells: this.game.sync()});
     }
-    let content = "" + cell.content;
-    if (cell.content === 0) {
-      content = " ";
-    } else if (cell.content === Content.mine) {
-      content = "M";
-    }
-    
-  return (<td className="Cell Reveal">{content}</td>);
-  }
-*/
-/*
-  private update() {
-    if (this.game.tick()) {
-      this.setState({});
-    }
-  }
 
-  private resetClicked = () => {
-    this.reset();
-    this.setState({});
-  }
+    public  componentWillUnmount() {
+        clearInterval(this.interval);
+    }
 
-  private reset() {
-   this.game.request_reset();
-  }
-*/
- 
+    public render(): JSX.Element {
+        if (this.state === null || this.state.cells === null) {
+            return (<p/>);
+        }
+        const onCellClick = (row: number, column: number) => { this.on_click(row, column)};
+        const reset = () => {this.request_reset()};
+        return (
+          <div className="App">
+            <header className="App-header">
+            
+              <h1 className="App-title">Mine Sweeper</h1>
+
+              <button onClick={reset}>Reset</button>
+            </header>
+            <p className="App-intro">          
+              <GridView game={this.game} onClick={onCellClick} cells={this.state.cells}/>
+            </p>      
+          </div>
+        );
+    }
+
+    private update() {
+        if (this.game.tick()) {
+            this.setState({cells: this.game.sync()});
+        }
+    }
+
+    private on_click(row: number, column: number) {
+        if (this.game.click(row, column)) {
+            this.setState({cells: this.game.sync()});
+        }
+    }
+
+    private request_reset() {
+        if (this.game.request_reset()) {
+            this.setState({cells: this.game.sync()});
+        }
+    }
+
 }
 
 export default App;

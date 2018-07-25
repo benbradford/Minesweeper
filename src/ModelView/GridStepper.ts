@@ -17,17 +17,17 @@ export default abstract class GridStepper {
 
     public begin(x: number, y: number) {
         if (this.has_more_steps()) {
-            return;
+            return false;
         }
         const cell = this.grid.guaranteed_cell(x,y);
         if (this.can_begin_from_cell(cell) === false) {
-            return;
+            return false;
         }
 
         this.queueStart = 0;
         this.queue = [this.grid.guaranteed_cell(x, y)];
         this.stepCount = this.stepSpeed;
-        this.step();
+        return true;
     }
 
     public step(): boolean {
@@ -63,6 +63,7 @@ export default abstract class GridStepper {
         }
         return false;
     }
+    
     private add_surrounding_to_queue(c: IGridCell) {
         const surrounding = this.grid.surrounding(c.coords.column, c.coords.row);
         for (const s of surrounding) {

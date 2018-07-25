@@ -20,6 +20,7 @@ export default class Game {
 
     public request_reset() {
         this.reset();
+        return true;
     }
 
     public click(row: number, col: number) {
@@ -35,7 +36,7 @@ export default class Game {
     }
 
     private reset() {
-        this.grid = new Grid(16, 16, 30);
+        this.grid = new Grid(16, 16, 50);
         const init = new GridInitialiser(this.grid);
         init.populate_grid_with_mines();
         init.populate_numbers_in_grid();
