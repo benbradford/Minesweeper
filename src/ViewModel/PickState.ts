@@ -13,7 +13,9 @@ export default class PickState extends GameState {
     }
 
     public on_click(cell: IGridCell): boolean {
-        if (this.grid.is_mine(cell)) {
+        if (cell.flagged) {
+            return false;
+        } else if (this.grid.is_mine(cell)) {
             this.stack().push( new DyingState(this.stack(), this.grid, cell));
         } else {
             this.stack().push( new MoveState(this.stack(), this.grid, cell));

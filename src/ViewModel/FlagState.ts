@@ -11,7 +11,8 @@ export default class FlagState extends GameState {
 
     public on_click(cell: IGridCell): boolean {
         if (cell.revealed === false) {
-            // :TODO: flagging is really just a view thing, so probably time to copy data from model
+            cell.flagged = !cell.flagged;
+            return true;
         }
         return false;
     }

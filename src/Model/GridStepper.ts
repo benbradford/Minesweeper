@@ -6,13 +6,9 @@ export default abstract class GridStepper {
     private grid: Grid;
     private queue: IGridCell[] = [];
     private queueStart = 0;
-    private readonly stepSpeed: number;
-    private stepCount = 0;
 
-    constructor(grid: Grid, speed: number) {
+    constructor(grid: Grid) {
         this.grid = grid;
-        this.stepSpeed = speed;
-        this.stepCount = 0;
     }
 
     public begin(x: number, y: number) {
@@ -26,16 +22,11 @@ export default abstract class GridStepper {
 
         this.queueStart = 0;
         this.queue = [this.grid.guaranteed_cell(x, y)];
-        this.stepCount = this.stepSpeed;
         return true;
     }
 
-    public step(): boolean {
-        ++this.stepCount;
-        if (this.stepCount < this.stepSpeed) {
-            return false;
-        }
-        this.stepCount = 0;
+    public step() {
+
         const cell = this.queue[this.queueStart];
         
         ++this.queueStart;
@@ -43,13 +34,12 @@ export default abstract class GridStepper {
         if (this.should_add_surrounding_to_queue(cell)) {
             this.add_surrounding_to_queue(cell);
         }
-        return true;
+
     }
 
     public has_more_steps() {
         return this.queueStart < this.queue.length;
     }
-
 
     protected abstract should_add_surrounding_to_queue(cell: IGridCell): boolean;
     protected abstract should_add_cell_to_queue(cell: IGridCell): boolean;

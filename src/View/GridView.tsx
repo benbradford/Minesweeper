@@ -1,7 +1,9 @@
 import * as React from 'react'
-import {ICellData} from '../ModelView/ICellData'
-import Game from '../ModelView/Game'
+import {ICellData} from '../ViewModel/ICellData'
+import Game from '../ViewModel/Game'
 import CellView from './CellView'
+
+import './Grid.css'
 
 interface IGridViewProps {
     game: Game;
@@ -20,7 +22,6 @@ export default class GridView extends React.Component<IGridViewProps, any>{
     }
 
     private render_grid() {
-
         return ( <table className="center">{this.props.cells.map((row: ICellData[], index: number) => this.render_row(row, index))}</table> );
     }
 

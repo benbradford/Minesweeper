@@ -9,8 +9,7 @@ export enum Content {
     six,
     seven,
     eight,
-    mine,
-    flag
+    mine
 }
 
 export interface ICoords {
@@ -22,4 +21,5 @@ export interface IGridCell {
     revealed: boolean;
     content: Content;
     coords: ICoords;
+    flagged: boolean;
 }

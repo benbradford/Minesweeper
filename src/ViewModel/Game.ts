@@ -2,7 +2,7 @@ import GameStateStack from './GameStateStack'
 import PickState from './PickState'
 import Grid from '../Model/Grid'
 import GridInitialiser from '../Model/GridInitialiser'
-import GridViewDataSync from 'src/ModelView/GridViewDataSync';
+import GridViewDataSync from 'src/ViewModel/GridViewDataSync';
 
 export default class Game {
 
@@ -27,12 +27,17 @@ export default class Game {
         return this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col));
     }
 
-    public set_flag_mode(flagModeOn: boolean) {
-        this.stateStack.current().on_flag_mode_change(flagModeOn);
+    public toggle_flag_mode() {
+        this.dataSync.toggle_flag_mode();
+        this.stateStack.current().on_flag_mode_change(this.dataSync.is_flag_mode_on());
     }
 
     public sync() { 
         return this.dataSync.sync();
+    }
+
+    public is_flag_mode_on() {
+        return this.dataSync.is_flag_mode_on();
     }
 
     private reset() {

@@ -15,7 +15,7 @@ export default class Grid {
         for (let y = 0; y < height; ++y) {
             this.data.push([]);
             for (let x = 0; x < width; ++x) {
-                this.data[y].push({revealed: false, content: Content.empty, coords: {column: x, row:y}});
+                this.data[y].push({revealed: false, content: Content.empty, coords: {column: x, row:y}, flagged: false});
             }
         }
         

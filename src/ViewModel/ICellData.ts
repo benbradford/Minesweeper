@@ -4,7 +4,8 @@ export enum CellState {
     empty,
     mine,
     exploded,
-    number
+    number,
+    flaggedIncorrect
 }
 
 export interface ICellData {

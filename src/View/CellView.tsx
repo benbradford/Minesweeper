@@ -1,5 +1,7 @@
 import * as React from 'react'
-import {ICellData, CellState} from '../ModelView/ICellData'
+import {ICellData, CellState} from '../ViewModel/ICellData'
+
+import './Cell.css'
 
 interface IGridViewProps {
     cell: ICellData;
@@ -14,9 +16,8 @@ export default class GridView extends React.Component<IGridViewProps, any>{
         const cell = this.props.cell;
         const r = this.props.row;
         const c = this.props.column;
-        
-        if (cell.cellState === CellState.hidden) {
-            const oc = () => { this.props.onClick(r, c); };
+        const oc = () => { this.props.onClick(r, c); };
+        if (cell.cellState === CellState.hidden) {          
             return (<td className="Cell Hidden"><button onClick={oc}/></td>); 
         } else if (cell.cellState === CellState.number && cell.num) {
             return (<td className="Cell Reveal" style={ this.number_style(cell.num) } >{cell.num}</td>);
@@ -24,6 +25,10 @@ export default class GridView extends React.Component<IGridViewProps, any>{
             return (<td className="Cell Reveal">M</td>);
         } else if (cell.cellState === CellState.empty) {
             return (<td className="Cell Reveal">{" "} </td>);
+        } else if (cell.cellState === CellState.flagged) {
+            return (<td className="Cell Hidden"><button onClick={oc}>F</button></td>); 
+        } else if (cell.cellState === CellState.flaggedIncorrect) {
+            return (<td className="Cell Reveal" style={{ color: "red"}}>X</td>);
         }
         return ( <p/> );  
     }
@@ -49,4 +54,5 @@ export default class GridView extends React.Component<IGridViewProps, any>{
             color: col
         };
     }
+
 }
