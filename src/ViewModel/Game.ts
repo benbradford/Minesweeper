@@ -9,9 +9,14 @@ export default class Game {
     private grid: Grid;
     private stateStack: GameStateStack;
     private dataSync: GridViewDataSync;
+    private syncCallback: ()=>void | null;
 
     constructor() {
         this.reset();
+    }
+
+    public set_sync_callback(sync: ()=>void) {
+        this.syncCallback = sync;
     }
 
     public tick() {
@@ -21,6 +26,10 @@ export default class Game {
     public request_reset() {
         this.reset();
         return true;
+    }
+
+    public state() {
+        return this.stateStack.current().type();
     }
 
     public click(row: number, col: number) {
@@ -41,13 +50,20 @@ export default class Game {
     }
 
     private reset() {
-        this.grid = new Grid(16, 16, 50);
+        this.grid = new Grid(16, 16, 40);
         const init = new GridInitialiser(this.grid);
         init.populate_grid_with_mines();
         init.populate_numbers_in_grid();
 
-        this.stateStack = new GameStateStack();
-        this.stateStack.push(new PickState(this.stateStack, this.grid));
+        this.stateStack = new GameStateStack( ()=>{ this.invoke_sync_callback()} );
+        this.stateStack.push(new PickState(this.stateStack, this.grid), false);
         this.dataSync = new GridViewDataSync(this.grid);
+        
+    }
+
+    private invoke_sync_callback() {
+        if (this.syncCallback) {
+            this.syncCallback();
+        }
     }
 }

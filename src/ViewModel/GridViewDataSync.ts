@@ -57,6 +57,6 @@ export default class GridViewDataSync {
             }
         }
 
-        return {cellState: cs, num: n,};
+        return {cellState: cs, num: n};
     }
 }

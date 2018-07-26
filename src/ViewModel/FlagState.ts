@@ -2,6 +2,7 @@ import GameState from './GameState'
 import GameStateStack from './GameStateStack'
 import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
+import {GameStateType} from './GameStateType'
 
 export default class FlagState extends GameState {
 
@@ -21,5 +22,9 @@ export default class FlagState extends GameState {
         if (isFlagMode === false) {
             this.stack().pop();
         }
+    }
+
+    public type() : GameStateType {
+        return GameStateType.Flagging;
     }
 }

@@ -22,7 +22,7 @@ export default class GridView extends React.Component<IGridViewProps, any>{
     }
 
     private render_grid() {
-        return ( <table className="center" style= {{ transform: "scale(0.8, 0.8)"}}>{this.props.cells.map((row: ICellViewData[], index: number) => this.render_row(row, index))}</table> );
+        return ( <table className="center" style= {{ transform: "scale(1.0, 1.0)"}}>{this.props.cells.map((row: ICellViewData[], index: number) => this.render_row(row, index))}</table> );
     }
 
     private render_row(row: ICellViewData[], rowIndex: number) {

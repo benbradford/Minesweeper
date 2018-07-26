@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {ICellViewData, CellState} from '../ViewModel/ICellViewData'
-import CellAsset from './CellAsset'
+import {Images} from './CellAsset'
 import './Cell.css'
 
 interface IGridViewProps {
@@ -18,19 +18,19 @@ export default class GridView extends React.Component<IGridViewProps, any>{
         const c = this.props.column;
         const oc = () => { this.props.onClick(r, c); };
         if (cell.cellState === CellState.hidden) {          
-            return (<td className="Cell Hidden" onMouseDown={oc}>{" "}</td>); 
+            return (<td className="Cell Hidden" onMouseDown={oc} style={ this.image_style(0) }/>); 
         } else if (cell.cellState === CellState.number && cell.num) {
             return (<td className="Cell Reveal" style={ this.number_style(cell.num) } >{cell.num}</td>);
         } else if (cell.cellState === CellState.mine) {
-            return (<td className="Cell Reveal">{CellAsset.mine}</td>);
+            return (<td className="Cell Reveal" style={ this.image_style(6) }/>);
         } else if (cell.cellState === CellState.empty) {
-            return (<td className="Cell Reveal">{" "}</td>);
+            return (<td className="Cell Reveal" style={ this.image_style(2) }/>);
         } else if (cell.cellState === CellState.flagged) {
-            return (<td className="Cell Hidden" onMouseDown={oc}>{CellAsset.flag}</td>); 
+            return (<td className="Cell Hidden" onMouseDown={oc} style={ this.image_style(4) }/>); 
         } else if (cell.cellState === CellState.flaggedIncorrect) {
-            return (<td className="Cell Reveal" style={{ color: "red"}}>{CellAsset.incorrect}</td>);
+            return (<td className="Cell Reveal" style={ this.image_style(5) }/>);
         } else if (cell.cellState === CellState.exploded) {
-            return (<td className="Cell Reveal" style={{ color: "orange"}}>{CellAsset.exploded}</td>);
+            return (<td className="Cell Reveal" style={ this.image_style(3) }/>);
         }
         return ( <p/> );  
     }
@@ -53,8 +53,14 @@ export default class GridView extends React.Component<IGridViewProps, any>{
             col = "darkgray"
         }
         return {
-            color: col
+            color: col,
+            backgroundImage: "url(" + Images[2] + ")"
         };
+    }
+
+    private image_style(imageIndex: number) {
+        const img = Images[imageIndex];
+        return { backgroundImage: "url(" + img + ")"};
     }
 
 }

@@ -4,7 +4,7 @@ import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
 import GridStepper from '../Model/GridStepper'
 
-export default class MoveState extends GameState {
+export default abstract class GridStepperState extends GameState {
 
     private stepper: GridStepper;
     private speed: number;
@@ -27,8 +27,10 @@ export default class MoveState extends GameState {
                 return true;
             }
         } else {
-            this.stack().pop();
+            this.on_complete();
         }
         return false;
     }
+
+    protected abstract on_complete(): void;
 }

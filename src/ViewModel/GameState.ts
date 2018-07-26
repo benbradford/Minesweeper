@@ -1,6 +1,7 @@
 import GameStateStack from './GameStateStack'
 import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
+import {GameStateType} from './GameStateType'
 
 export default abstract class GameState {
 
@@ -12,6 +13,7 @@ export default abstract class GameState {
         this.grid = grid;
     }
 
+    public abstract type() : GameStateType;
     /* tslint:disable:no-empty */
     public on_click(cell: IGridCell): boolean { return false; }
     public on_flag_mode_change(isFlagMode: boolean): void { }

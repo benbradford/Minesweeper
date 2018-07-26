@@ -3,10 +3,13 @@ import './App.css';
 import GridView from './View/GridView'
 import Game from './ViewModel/Game'
 import {ICellViewData} from './ViewModel/ICellViewData'
+import FaceView from './View/FaceView'
+import {GameStateType} from './ViewModel/GameStateType'
 
 interface IAppState {
     cells: ICellViewData[][];
     flagModeOn: boolean;
+    stateType: GameStateType
 }
 
 class App extends React.Component<any, IAppState> {
@@ -17,6 +20,8 @@ class App extends React.Component<any, IAppState> {
     public componentDidMount() {
         this.interval = setInterval(() => this.update(), 1);
         this.setState({cells: this.game.sync()});
+        const refreshState = () => { this.refresh_state() };
+        this.game.set_sync_callback(refreshState);
     }
 
     public  componentWillUnmount() {
@@ -37,10 +42,17 @@ class App extends React.Component<any, IAppState> {
         return (
           <div className="App">
             <header className="App-header">
-              <h1 className="App-title">Mine Sweeper</h1>
-              <button onClick={reset}>Reset</button>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button onClick={flagMode}>{flagText}</button>
+
+                <table className="center" >
+                    <tr><td/><td>
+                        <FaceView stateType={this.state.stateType} />
+                    </td></tr>
+                    <tr> 
+                        <td><button onClick={reset}>Reset</button></td>
+                        <td/>
+                        <td><button onClick={flagMode}>{flagText}</button></td>
+                    </tr>
+                </table>
             </header>
             <p className="App-intro">          
               <GridView game={this.game} onClick={onCellClick} cells={this.state.cells}/>
@@ -73,7 +85,10 @@ class App extends React.Component<any, IAppState> {
     }
 
     private refresh_state() {
-        this.setState({cells: this.game.sync(), flagModeOn: this.game.is_flag_mode_on()});
+        const c = this.game.sync();
+        const f = this.game.is_flag_mode_on();
+        const s = this.game.state();
+        this.setState({cells: c, flagModeOn: f, stateType: s});
     }
 
 }

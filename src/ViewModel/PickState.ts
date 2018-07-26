@@ -5,6 +5,7 @@ import Grid from '../Model/Grid'
 import DyingState from './DyingState'
 import FlagState from './FlagState'
 import MoveState from './MoveState'
+import {GameStateType} from './GameStateType'
 
 export default class PickState extends GameState {
 
@@ -27,5 +28,9 @@ export default class PickState extends GameState {
         if (isFlagMode) {
             this.stack().push(new FlagState(this.stack(), this.grid));
         }
+    }
+
+    public type() : GameStateType {
+        return GameStateType.Picking;
     }
 }
