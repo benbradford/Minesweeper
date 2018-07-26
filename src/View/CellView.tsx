@@ -1,10 +1,10 @@
 import * as React from 'react'
-import {ICellData, CellState} from '../ViewModel/ICellData'
-
+import {ICellViewData, CellState} from '../ViewModel/ICellViewData'
+import CellAsset from './CellAsset'
 import './Cell.css'
 
 interface IGridViewProps {
-    cell: ICellData;
+    cell: ICellViewData;
     row: number;
     column: number;
     onClick: (row: number, column: number) => void;
@@ -18,17 +18,19 @@ export default class GridView extends React.Component<IGridViewProps, any>{
         const c = this.props.column;
         const oc = () => { this.props.onClick(r, c); };
         if (cell.cellState === CellState.hidden) {          
-            return (<td className="Cell Hidden"><button onClick={oc}/></td>); 
+            return (<td className="Cell Hidden" onMouseDown={oc}>{" "}</td>); 
         } else if (cell.cellState === CellState.number && cell.num) {
             return (<td className="Cell Reveal" style={ this.number_style(cell.num) } >{cell.num}</td>);
         } else if (cell.cellState === CellState.mine) {
-            return (<td className="Cell Reveal">M</td>);
+            return (<td className="Cell Reveal">{CellAsset.mine}</td>);
         } else if (cell.cellState === CellState.empty) {
-            return (<td className="Cell Reveal">{" "} </td>);
+            return (<td className="Cell Reveal">{" "}</td>);
         } else if (cell.cellState === CellState.flagged) {
-            return (<td className="Cell Hidden"><button onClick={oc}>F</button></td>); 
+            return (<td className="Cell Hidden" onMouseDown={oc}>{CellAsset.flag}</td>); 
         } else if (cell.cellState === CellState.flaggedIncorrect) {
-            return (<td className="Cell Reveal" style={{ color: "red"}}>X</td>);
+            return (<td className="Cell Reveal" style={{ color: "red"}}>{CellAsset.incorrect}</td>);
+        } else if (cell.cellState === CellState.exploded) {
+            return (<td className="Cell Reveal" style={{ color: "orange"}}>{CellAsset.exploded}</td>);
         }
         return ( <p/> );  
     }

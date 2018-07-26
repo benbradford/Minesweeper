@@ -2,11 +2,11 @@ import GridStepperState from './GridStepperState'
 import GameStateStack from './GameStateStack'
 import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
-import GridMoveSolver from '../Model/GridMoveSolver'
+import MoveStepper from '../Model/MoveStepper'
 
 export default class MoveState extends GridStepperState {
 
     constructor(stack: GameStateStack, grid: Grid, cell: IGridCell) {
-        super(stack, grid, cell, new GridMoveSolver(grid), 2);
+        super(stack, grid, cell, new MoveStepper(grid), 2);
     }
 }

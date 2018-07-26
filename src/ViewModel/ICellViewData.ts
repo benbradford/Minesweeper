@@ -8,7 +8,7 @@ export enum CellState {
     flaggedIncorrect
 }
 
-export interface ICellData {
+export interface ICellViewData {
     cellState: CellState;
     num: number | null;
 }

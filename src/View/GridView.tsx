@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ICellData} from '../ViewModel/ICellData'
+import {ICellViewData} from '../ViewModel/ICellViewData'
 import Game from '../ViewModel/Game'
 import CellView from './CellView'
 
@@ -8,7 +8,7 @@ import './Grid.css'
 interface IGridViewProps {
     game: Game;
     onClick: (row: number, column: number) => void;
-    cells: ICellData[][];
+    cells: ICellViewData[][];
 }
 
 export default class GridView extends React.Component<IGridViewProps, any>{
@@ -22,14 +22,14 @@ export default class GridView extends React.Component<IGridViewProps, any>{
     }
 
     private render_grid() {
-        return ( <table className="center">{this.props.cells.map((row: ICellData[], index: number) => this.render_row(row, index))}</table> );
+        return ( <table className="center" style= {{ transform: "scale(0.8, 0.8)"}}>{this.props.cells.map((row: ICellViewData[], index: number) => this.render_row(row, index))}</table> );
     }
 
-    private render_row(row: ICellData[], rowIndex: number) {
-        return (<tr className="Row">{row.map((c: ICellData, columnIndex: number) => this.render_cell(c, rowIndex, columnIndex) )}</tr>);
+    private render_row(row: ICellViewData[], rowIndex: number) {
+        return (<tr className="Row">{row.map((c: ICellViewData, columnIndex: number) => this.render_cell(c, rowIndex, columnIndex) )}</tr>);
     }
 
-    private render_cell(cl: ICellData, c: number, r: number) {
+    private render_cell(cl: ICellViewData, c: number, r: number) {
         const cli = (row: number, column: number)=> {this.props.onClick(row, column)};
         return (<CellView cell={cl} row={r} column={c} onClick={cli}/>); 
     }

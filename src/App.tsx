@@ -2,10 +2,10 @@ import * as React from 'react';
 import './App.css';
 import GridView from './View/GridView'
 import Game from './ViewModel/Game'
-import {ICellData} from './ViewModel/ICellData'
+import {ICellViewData} from './ViewModel/ICellViewData'
 
 interface IAppState {
-    cells: ICellData[][];
+    cells: ICellViewData[][];
     flagModeOn: boolean;
 }
 
@@ -39,6 +39,7 @@ class App extends React.Component<any, IAppState> {
             <header className="App-header">
               <h1 className="App-title">Mine Sweeper</h1>
               <button onClick={reset}>Reset</button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <button onClick={flagMode}>{flagText}</button>
             </header>
             <p className="App-intro">          

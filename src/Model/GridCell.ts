@@ -9,7 +9,8 @@ export enum Content {
     six,
     seven,
     eight,
-    mine
+    mine,
+    exploded
 }
 
 export interface ICoords {

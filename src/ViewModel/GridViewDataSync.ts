@@ -1,4 +1,4 @@
-import {ICellData, CellState} from './ICellData'
+import {ICellViewData, CellState} from './ICellViewData'
 import Grid from '../Model/Grid'
 import {IGridCell, Content} from '../Model/GridCell'
 
@@ -12,7 +12,7 @@ export default class GridViewDataSync {
     }
 
     public sync() {
-        const data: ICellData[][] = [];
+        const data: ICellViewData[][] = [];
         for (let y = 0; y < this.grid.height; ++y) {
             data.push([]);
             for (let x = 0; x < this.grid.width; ++x) {
@@ -44,6 +44,8 @@ export default class GridViewDataSync {
             } else if (cell.content > 0 && cell.content <= Content.eight) {
                 n = cell.content;
                 cs = CellState.number;
+            } else if (cell.content === Content.exploded) {
+                cs = CellState.exploded;
             } else {
                 cs = CellState.hidden;
             }

@@ -1,16 +1,15 @@
 
 
 .Cell {
-    min-width: 21px;
-    min-height: 21px;
-    max-width: 21px;
-    max-height: 21px;
+    width: 22px;
+    height: 28px;
     font-family: "Courier New", Courier, monospace;
     font-weight: bolder;
     border-width: 1px;
 
     border-style:solid;
     border-color: black;
+    
 }
 
 .Revealed {
