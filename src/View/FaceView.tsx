@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GameStateType} from '../ViewModel/GameStateType'
-import './Face.css'
+import './StyleSheet/Face.css'
 
 const Faces = [
     require('./Asset/picking.png'),

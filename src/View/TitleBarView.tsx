@@ -1,7 +1,7 @@
 import * as React from 'react'
 import FaceView from './FaceView'
 import {GameStateType} from '../ViewModel/GameStateType'
-import './TitleBar.css'
+import './StyleSheet/TitleBar.css'
 
 interface ITitleBarProps {
     stateType: GameStateType;

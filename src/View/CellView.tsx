@@ -1,24 +1,30 @@
 import * as React from 'react'
 import {Images} from './CellAsset'
 import {ICellViewData, CellState} from '../ViewModel/ICellViewData'
-import './Cell.css'
+import './StyleSheet/Cell.css'
 
-interface IGridViewProps {
+interface ICellViewProps {
     cell: ICellViewData;
     row: number;
     column: number;
     onClick: (row: number, column: number) => void;
 }
 
-export default class GridView extends React.Component<IGridViewProps, any>{
- 
+interface IMouseOverState {
+    isMouseOver: boolean
+}
+
+export default class CellView extends React.Component<ICellViewProps, IMouseOverState>{
+    
+    constructor(props: ICellViewProps, state: IMouseOverState) {
+        super(props, state);
+    }
+
     public render() {     
         const cell = this.props.cell;
-        const r = this.props.row;
-        const c = this.props.column;
-        const oc = () => { this.props.onClick(r, c); };
+        const onClick = () => { this.props.onClick(this.props.row, this.props.column); };
         if (cell.cellState === CellState.hidden) {          
-            return (<td className="Cell Hidden" onMouseDown={oc} style={ this.image_style(0) }/>); 
+            return (<td className="Cell Hidden" onMouseDown={onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ this.image_style(this.empty_style_index()) }/>); 
         } else if (cell.cellState === CellState.number && cell.num) {
             return (<td className="Cell Reveal" style={ this.number_style(cell.num) } >{cell.num}</td>);
         } else if (cell.cellState === CellState.mine) {
@@ -26,7 +32,7 @@ export default class GridView extends React.Component<IGridViewProps, any>{
         } else if (cell.cellState === CellState.empty) {
             return (<td className="Cell Reveal" style={ this.image_style(2) }/>);
         } else if (cell.cellState === CellState.flagged) {
-            return (<td className="Cell Hidden" onMouseDown={oc} style={ this.image_style(4) }/>); 
+            return (<td className="Cell Hidden" onMouseDown={onClick} style={ this.image_style(4) }/>); 
         } else if (cell.cellState === CellState.flaggedIncorrect) {
             return (<td className="Cell Reveal" style={ this.image_style(5) }/>);
         } else if (cell.cellState === CellState.exploded) {
@@ -36,24 +42,9 @@ export default class GridView extends React.Component<IGridViewProps, any>{
     }
 
     private number_style(num: number) {
-        let col = "blue";
-        if (num === 2) {
-            col = "green";
-        } else if ( num === 3) {
-            col = "red";
-        } else if ( num === 4) {
-            col = "purple";
-        } else if ( num === 5) {
-            col = "maroon";
-        } else if ( num === 6) {
-            col = "cadetblue";
-        } else if ( num === 7) {
-            col = "black";
-        } else if ( num === 8) {
-            col = "darkgray"
-        }
+        
         return {
-            color: col,
+            color: this.number_color(num),
             backgroundImage: "url(" + Images[2] + ")"
         };
     }
@@ -63,4 +54,37 @@ export default class GridView extends React.Component<IGridViewProps, any>{
         return { backgroundImage: "url(" + img + ")"};
     }
 
+    private empty_style_index() {
+        if (this.state && this.state.isMouseOver) {
+            return 1;
+        }
+        return 0;
+    }
+
+    private number_color(num: number) {
+        if (num === 2) {
+            return "green";
+        } else if ( num === 3) {
+            return "red";
+        } else if ( num === 4) {
+            return "purple";
+        } else if ( num === 5) {
+            return "maroon";
+        } else if ( num === 6) {
+            return "cadetblue";
+        } else if ( num === 7) {
+            return "black";
+        } else if ( num === 8) {
+            return "darkgray"
+        }
+        return "blue";
+    }
+
+    private onMouseEnter = (): void => {
+        this.setState({isMouseOver: true});
+    }
+
+    private onMouseLeave = (): void => {
+        this.setState({isMouseOver: false});
+    }
 }
