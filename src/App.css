@@ -3,27 +3,10 @@
   background-color: #444;
 }
 
-.App-header {
-  background-color: #222;
-  height: 140px;
-  padding: 20px;
-  color: white;
-}
-
 .App-title {
   font-size: 1.5em;
 }
 
 .App-intro {
   font-size: large;
-}
-
-.MenuItem {
-  text-align: center;
-  float:left;
-}
-
-table.center {
-  margin-left:auto; 
-  margin-right:auto;
 }

@@ -2,51 +2,46 @@ import GameStateStack from './GameStateStack'
 import PickState from './PickState'
 import Grid from '../Model/Grid'
 import GridInitialiser from '../Model/GridInitialiser'
-import GridViewDataSync from 'src/ViewModel/GridViewDataSync';
+import GridViewDataSync from 'src/ViewModel/GridViewDataSync'
+import IGameState from './IGameState'
 
 export default class Game {
 
     private grid: Grid;
     private stateStack: GameStateStack;
     private dataSync: GridViewDataSync;
-    private syncCallback: ()=>void | null;
+    private stateListenerCallback: (state: IGameState) => void | null;
 
     constructor() {
         this.reset();
     }
 
-    public set_sync_callback(sync: ()=>void) {
-        this.syncCallback = sync;
+    public register_state_change_listener(sync:  (state: IGameState) => void) {
+        this.stateListenerCallback = sync;
+        this.invoke_sync_callback();
     }
 
     public tick() {
-        return this.stateStack.current().tick();
+        if (this.stateStack.current().tick()) {
+            this.invoke_sync_callback();
+        }
     }
 
     public request_reset() {
         this.reset();
-        return true;
-    }
-
-    public state() {
-        return this.stateStack.current().type();
+        this.invoke_sync_callback();
     }
 
     public click(row: number, col: number) {
-        return this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col));
+       if (this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col))) {
+        this.invoke_sync_callback();
+       }
     }
 
     public toggle_flag_mode() {
         this.dataSync.toggle_flag_mode();
         this.stateStack.current().on_flag_mode_change(this.dataSync.is_flag_mode_on());
-    }
-
-    public sync() { 
-        return this.dataSync.sync();
-    }
-
-    public is_flag_mode_on() {
-        return this.dataSync.is_flag_mode_on();
+        this.invoke_sync_callback();
     }
 
     private reset() {
@@ -57,13 +52,16 @@ export default class Game {
 
         this.stateStack = new GameStateStack( ()=>{ this.invoke_sync_callback()} );
         this.stateStack.push(new PickState(this.stateStack, this.grid), false);
-        this.dataSync = new GridViewDataSync(this.grid);
-        
+        this.dataSync = new GridViewDataSync(this.grid);  
     }
 
     private invoke_sync_callback() {
-        if (this.syncCallback) {
-            this.syncCallback();
+        if (this.stateListenerCallback) {
+            this.stateListenerCallback( {
+                cells: this.dataSync.sync(),
+                flagModeOn: this.dataSync.is_flag_mode_on(),
+                stateType: this.stateStack.current().type()
+            });
         }
     }
 }

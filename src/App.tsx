@@ -1,27 +1,18 @@
 import * as React from 'react';
 import './App.css';
 import GridView from './View/GridView'
+import TitleBarView from './View/TitleBarView'
 import Game from './ViewModel/Game'
-import {ICellViewData} from './ViewModel/ICellViewData'
-import FaceView from './View/FaceView'
-import {GameStateType} from './ViewModel/GameStateType'
+import IGameState from './ViewModel/IGameState'
 
-interface IAppState {
-    cells: ICellViewData[][];
-    flagModeOn: boolean;
-    stateType: GameStateType
-}
-
-class App extends React.Component<any, IAppState> {
+class App extends React.Component<any, IGameState> {
 
     private interval: NodeJS.Timer;
     private game = new Game;
 
     public componentDidMount() {
-        this.interval = setInterval(() => this.update(), 1);
-        this.setState({cells: this.game.sync()});
-        const refreshState = () => { this.refresh_state() };
-        this.game.set_sync_callback(refreshState);
+        this.interval = setInterval(() => this.update(), 1);      
+        this.game.register_state_change_listener(this.refreshState);
     }
 
     public  componentWillUnmount() {
@@ -32,28 +23,13 @@ class App extends React.Component<any, IAppState> {
         if (this.state === null || this.state.cells === null) {
             return (<p/>);
         }
-        const onCellClick = (row: number, column: number) => { this.on_click(row, column)};
-        const reset = () => {this.request_reset()};
-        const flagMode = () => {this.flag_mode_clicked()};
-        let flagText = "Pick";
-        if (this.state.flagModeOn) {
-            flagText = "Flag";
-        }
+        const onCellClick = (row: number, column: number) => { this.game.click(row, column) };
+        const onResetClick = () => {this.game.request_reset()};
+        const onToggleFlagMode = () => {this.game.toggle_flag_mode()};
+        
         return (
           <div className="App">
-            <header className="App-header">
-
-                <table className="center" >
-                    <tr><td/><td>
-                        <FaceView stateType={this.state.stateType} />
-                    </td></tr>
-                    <tr> 
-                        <td><button onClick={reset}>Reset</button></td>
-                        <td/>
-                        <td><button onClick={flagMode}>{flagText}</button></td>
-                    </tr>
-                </table>
-            </header>
+            <TitleBarView stateType={this.state.stateType} onResetClicked={onResetClick} onFlagModeToggle={onToggleFlagMode} isFlagModeOn={this.state.flagModeOn}/>
             <p className="App-intro">          
               <GridView game={this.game} onClick={onCellClick} cells={this.state.cells}/>
             </p>      
@@ -62,35 +38,12 @@ class App extends React.Component<any, IAppState> {
     }
 
     private update() {
-        if (this.game.tick()) {
-            this.refresh_state();
-        }
+        this.game.tick();      
     }
 
-    private on_click(row: number, column: number) {
-        if (this.game.click(row, column)) {
-            this.refresh_state();
-        }
+    private refreshState = (newState: IGameState): void => {
+         this.setState(newState);
     }
-
-    private request_reset() {
-        if (this.game.request_reset()) {
-            this.refresh_state();
-        }
-    }
-
-    private flag_mode_clicked() {
-        this.game.toggle_flag_mode();
-        this.refresh_state();
-    }
-
-    private refresh_state() {
-        const c = this.game.sync();
-        const f = this.game.is_flag_mode_on();
-        const s = this.game.state();
-        this.setState({cells: c, flagModeOn: f, stateType: s});
-    }
-
 }
 
 export default App;
