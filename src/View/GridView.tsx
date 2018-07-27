@@ -1,8 +1,7 @@
 import * as React from 'react'
+import CellView from './CellView'
 import {ICellViewData} from '../ViewModel/ICellViewData'
 import Game from '../ViewModel/Game'
-import CellView from './CellView'
-
 import './Grid.css'
 
 interface IGridViewProps {

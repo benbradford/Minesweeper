@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {ICellViewData, CellState} from '../ViewModel/ICellViewData'
 import {Images} from './CellAsset'
+import {ICellViewData, CellState} from '../ViewModel/ICellViewData'
 import './Cell.css'
 
 interface IGridViewProps {

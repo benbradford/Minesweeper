@@ -1,11 +1,11 @@
 import GameState from './GameState'
 import GameStateStack from './GameStateStack'
-import {IGridCell} from '../Model/GridCell'
-import Grid from '../Model/Grid'
 import DyingState from './DyingState'
 import FlagState from './FlagState'
 import MoveState from './MoveState'
 import {GameStateType} from './GameStateType'
+import {IGridCell} from '../Model/GridCell'
+import Grid from '../Model/Grid'
 
 export default class PickState extends GameState {
 

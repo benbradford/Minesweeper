@@ -1,7 +1,7 @@
 import GameState from './GameState'
 import GameStateStack from './GameStateStack'
-import Grid from '../Model/Grid'
 import {GameStateType} from './GameStateType'
+import Grid from '../Model/Grid'
 
 export default class WinState extends GameState {
 

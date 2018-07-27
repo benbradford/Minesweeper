@@ -1,9 +1,9 @@
 import GameStateStack from './GameStateStack'
 import PickState from './PickState'
+import GridViewDataSync from './GridViewDataSync'
+import IGameState from './IGameState'
 import Grid from '../Model/Grid'
 import GridInitialiser from '../Model/GridInitialiser'
-import GridViewDataSync from 'src/ViewModel/GridViewDataSync'
-import IGameState from './IGameState'
 
 export default class Game {
 

@@ -1,7 +1,7 @@
 import GameStateStack from './GameStateStack'
+import {GameStateType} from './GameStateType'
 import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
-import {GameStateType} from './GameStateType'
 
 export default abstract class GameState {
 

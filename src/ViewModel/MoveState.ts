@@ -1,10 +1,10 @@
 import GridStepperState from './GridStepperState'
 import GameStateStack from './GameStateStack'
 import {IGridCell} from '../Model/GridCell'
-import Grid from '../Model/Grid'
-import MoveStepper from '../Model/MoveStepper'
 import {GameStateType} from './GameStateType'
 import WinState from './WinState'
+import Grid from '../Model/Grid'
+import MoveStepper from '../Model/MoveStepper'
 
 export default class MoveState extends GridStepperState {
 

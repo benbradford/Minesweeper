@@ -1,15 +1,7 @@
 import * as React from 'react'
 import {GameStateType} from '../ViewModel/GameStateType'
 import './Face.css'
-/*
-export enum GameStateType {
-    Picking,
-    Flagging,
-    Moving,
-    Dying,
-    Dead,
-    Win
-}*/
+
 const Faces = [
     require('./Asset/picking.png'),
     require('./Asset/picking.png'),

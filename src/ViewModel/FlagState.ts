@@ -1,8 +1,8 @@
 import GameState from './GameState'
 import GameStateStack from './GameStateStack'
+import {GameStateType} from './GameStateType'
 import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
-import {GameStateType} from './GameStateType'
 
 export default class FlagState extends GameState {
 

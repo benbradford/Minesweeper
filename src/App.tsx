@@ -11,8 +11,8 @@ class App extends React.Component<any, IGameState> {
     private game = new Game;
 
     public componentDidMount() {
-        this.interval = setInterval(() => this.update(), 1);      
         this.game.register_state_change_listener(this.refreshState);
+        this.interval = setInterval(() => this.update(), 1);      
     }
 
     public  componentWillUnmount() {
@@ -20,7 +20,7 @@ class App extends React.Component<any, IGameState> {
     }
 
     public render(): JSX.Element {
-        if (this.state === null || this.state.cells === null) {
+        if (this.state === null) {
             return (<p/>);
         }
         const onCellClick = (row: number, column: number) => { this.game.click(row, column) };
