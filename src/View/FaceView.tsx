@@ -4,7 +4,7 @@ import './Face.css'
 
 const Faces = [
     require('./Asset/picking.png'),
-    require('./Asset/picking.png'),
+    require('./Asset/flagging.png'),
     require('./Asset/moving.png'),
     require('./Asset/dying.png'),
     require('./Asset/dead.png'),

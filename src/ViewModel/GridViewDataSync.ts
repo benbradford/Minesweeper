@@ -36,9 +36,6 @@ export default class GridViewDataSync {
         if (cell.revealed) {
             if (cell.content === Content.mine) {
                 cs = CellState.mine;
-                if (cell.flagged) {
-                    cs = CellState.flaggedIncorrect;
-                }
             } else if (cell.content === Content.empty) {
                 cs = CellState.empty;
             } else if (cell.content > 0 && cell.content <= Content.eight) {
@@ -55,6 +52,10 @@ export default class GridViewDataSync {
             } else {
                 cs = CellState.hidden;
             }
+        }
+
+        if (cell.content !== Content.mine && cell.flagged && cell.revealed) {
+            cs = CellState.flaggedIncorrect;
         }
 
         return {cellState: cs, num: n};

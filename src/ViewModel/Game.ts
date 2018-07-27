@@ -11,7 +11,7 @@ export default class Game {
     private stateStack: GameStateStack;
     private dataSync: GridViewDataSync;
     private stateListenerCallback: (state: IGameState) => void | null;
-
+  
     constructor() {
         this.reset();
     }

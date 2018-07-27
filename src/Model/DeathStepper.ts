@@ -20,4 +20,7 @@ export default class DeathStepper extends GridStepper {
         return cell.content === Content.exploded;
     }
 
+    protected should_step_again(cell: IGridCell): boolean {
+        return cell.revealed;
+    }
 }

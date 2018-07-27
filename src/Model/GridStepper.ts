@@ -27,14 +27,20 @@ export default abstract class GridStepper {
 
     public step() {
 
+        if (this.has_more_steps() === false) {
+            return;
+        }
         const cell = this.queue[this.queueStart];
         
+        const stepAgain = this.should_step_again(cell);
         ++this.queueStart;
         cell.revealed = true;
         if (this.should_add_surrounding_to_queue(cell)) {
             this.add_surrounding_to_queue(cell);
         }
-
+        if (stepAgain) {
+            this.step();
+        }
     }
 
     public has_more_steps() {
@@ -44,6 +50,7 @@ export default abstract class GridStepper {
     protected abstract should_add_surrounding_to_queue(cell: IGridCell): boolean;
     protected abstract should_add_cell_to_queue(cell: IGridCell): boolean;
     protected abstract can_begin_from_cell(cell: IGridCell): boolean;
+    protected abstract should_step_again(cell: IGridCell): boolean;
 
     protected is_contained_in_queue(cell: IGridCell) {
         for (const c of this.queue) {
