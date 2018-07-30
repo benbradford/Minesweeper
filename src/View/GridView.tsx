@@ -8,6 +8,7 @@ interface IGridViewProps {
     game: Game;
     onClick: (row: number, column: number) => void;
     cells: ICellViewData[][];
+    isFlagging: boolean;
 }
 
 export default class GridView extends React.Component<IGridViewProps, any>{
@@ -30,7 +31,7 @@ export default class GridView extends React.Component<IGridViewProps, any>{
 
     private render_cell(cl: ICellViewData, c: number, r: number) {
         const cli = (row: number, column: number)=> {this.props.onClick(row, column)};
-        return (<CellView cell={cl} row={r} column={c} onClick={cli}/>); 
+        return (<CellView cell={cl} row={r} column={c} onClick={cli} isFlagging={this.props.isFlagging}/>); 
     }
  
 }

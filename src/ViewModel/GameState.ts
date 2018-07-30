@@ -4,7 +4,7 @@ import {IGridCell} from '../Model/GridCell'
 import Grid from '../Model/Grid'
 
 export default abstract class GameState {
-
+    /* tslint:disable:no-empty */
     protected grid: Grid;
     private stateStack: GameStateStack;
    
@@ -14,7 +14,7 @@ export default abstract class GameState {
     }
 
     public abstract type() : GameStateType;
-    /* tslint:disable:no-empty */
+
     public on_click(cell: IGridCell): boolean { return false; }
     public on_flag_mode_change(isFlagMode: boolean): void { }
     public tick(): boolean { return false; } // return true for state update

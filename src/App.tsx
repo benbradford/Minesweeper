@@ -30,8 +30,8 @@ class App extends React.Component<any, IGameState> {
         return (
           <div className="App">
             <TitleBarView stateType={this.state.stateType} onResetClicked={onResetClick} onFlagModeToggle={onToggleFlagMode} isFlagModeOn={this.state.flagModeOn}/>
-            <p className="App-intro">          
-              <GridView game={this.game} onClick={onCellClick} cells={this.state.cells}/>
+            <p>          
+              <GridView game={this.game} onClick={onCellClick} cells={this.state.cells} isFlagging={this.state.flagModeOn}/>
             </p>      
           </div>
         );

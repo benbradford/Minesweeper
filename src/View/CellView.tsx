@@ -7,6 +7,7 @@ interface ICellViewProps {
     cell: ICellViewData;
     row: number;
     column: number;
+    isFlagging: boolean;
     onClick: (row: number, column: number) => void;
 }
 
@@ -41,8 +42,7 @@ export default class CellView extends React.Component<ICellViewProps, IMouseOver
         return ( <p/> );  
     }
 
-    private number_style(num: number) {
-        
+    private number_style(num: number) {      
         return {
             color: this.number_color(num),
             backgroundImage: "url(" + Images[2] + ")"
@@ -56,6 +56,9 @@ export default class CellView extends React.Component<ICellViewProps, IMouseOver
 
     private empty_style_index() {
         if (this.state && this.state.isMouseOver) {
+            if (this.props.isFlagging) {
+                return 7;
+            }
             return 1;
         }
         return 0;

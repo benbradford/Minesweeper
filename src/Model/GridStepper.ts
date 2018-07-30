@@ -15,6 +15,7 @@ export default abstract class GridStepper {
         if (this.has_more_steps()) {
             return false;
         }
+        
         const cell = this.grid.guaranteed_cell(x,y);
         if (this.can_begin_from_cell(cell) === false) {
             return false;
@@ -26,7 +27,6 @@ export default abstract class GridStepper {
     }
 
     public step() {
-
         if (this.has_more_steps() === false) {
             return;
         }
@@ -35,6 +35,7 @@ export default abstract class GridStepper {
         const stepAgain = this.should_step_again(cell);
         ++this.queueStart;
         cell.revealed = true;
+
         if (this.should_add_surrounding_to_queue(cell)) {
             this.add_surrounding_to_queue(cell);
         }

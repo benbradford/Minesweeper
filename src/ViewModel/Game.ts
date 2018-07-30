@@ -33,9 +33,9 @@ export default class Game {
     }
 
     public click(row: number, col: number) {
-       if (this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col))) {
-        this.invoke_sync_callback();
-       }
+        if (this.stateStack.current().on_click(this.grid.guaranteed_cell(row, col))) {
+            this.invoke_sync_callback();
+        }
     }
 
     public toggle_flag_mode() {
