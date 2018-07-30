@@ -27,17 +27,17 @@ export default class CellView extends React.Component<ICellViewProps, IMouseOver
         if (cell.cellState === CellState.hidden) {          
             return (<td className="Cell Hidden" onMouseDown={onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ this.image_style(this.empty_style_index()) }/>); 
         } else if (cell.cellState === CellState.number && cell.num) {
-            return (<td className="Cell Reveal" style={ this.number_style(cell.num) } >{cell.num}</td>);
+            return (<td className="Cell Reveal" style={ this.number_style(cell.num)}  onMouseLeave={this.onMouseLeave} >{cell.num}</td>);
         } else if (cell.cellState === CellState.mine) {
-            return (<td className="Cell Reveal" style={ this.image_style(6) }/>);
+            return (<td className="Cell Reveal" style={ this.image_style(6) } onMouseLeave={this.onMouseLeave}/>);
         } else if (cell.cellState === CellState.empty) {
-            return (<td className="Cell Reveal" style={ this.image_style(2) }/>);
+            return (<td className="Cell Reveal" style={ this.image_style(2) } onMouseLeave={this.onMouseLeave}/>);
         } else if (cell.cellState === CellState.flagged) {
-            return (<td className="Cell Hidden" onMouseDown={onClick} style={ this.image_style(4) }/>); 
+            return (<td className="Cell Hidden" onMouseDown={onClick} style={ this.image_style(4) } onMouseLeave={this.onMouseLeave}/>); 
         } else if (cell.cellState === CellState.flaggedIncorrect) {
-            return (<td className="Cell Reveal" style={ this.image_style(5) }/>);
+            return (<td className="Cell Reveal" style={ this.image_style(5) }  onMouseLeave={this.onMouseLeave}/>);
         } else if (cell.cellState === CellState.exploded) {
-            return (<td className="Cell Reveal" style={ this.image_style(3) }/>);
+            return (<td className="Cell Reveal" style={ this.image_style(3) } onMouseLeave={this.onMouseLeave}/>);
         }
         return ( <p/> );  
     }
